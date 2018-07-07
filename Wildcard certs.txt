@@ -57,6 +57,11 @@ tar --exclude='bin/' \
 -zvcf archived_config.tar.gz .
 
 
+Change election wait time to 10 seconds
+Silent observer in election? (null participant ID in #register())
+Still able to reproduce cert error
+
+
 
 🔓 0s @ 18:07:58 $ tree -L 2
 .
