@@ -1,0 +1,103 @@
+Wildcard certs
+
+Create individual node
+	-Configure TLS toolkit
+		-Configure client cert
+	-Copy keystore/truststore/nifi.properties
+	-Configure zookeeper properties
+	-Configure IAI user
+
+
+	/etc/hosts aliases
+	different ports?
+
+	docker cluster
+	same ports mapped to different host port
+
+	wildcart cert same keystore, truststore, passwords for each node
+	only port, hostname, different? (actual port in nifi.properties same, docker host port different)
+	zookeeper settings?
+
+	custom Dockerfile which reads ZK file from host?
+	built on apache/nifi:latest
+
+
+	manual configuration first
+
+	cluster port 1(n)888
+	s2s port 1(n)000
+	api port 1(n)443
+	zk port 218(n)
+
+	Node 1
+
+	
+
+	Node 2
+
+	
+
+	Node 3
+
+
+
+tar --exclude='bin/' \
+--exclude='database_repository/' \
+--exclude='content_repository/' \
+--exclude='docs/' \
+--exclude='flowfile_repository/' \
+--exclude='lib/' \
+--exclude='logs/' \
+--exclude='provenance_repository/' \
+--exclude='run/' \
+--exclude='work/' \
+--exclude="LICENSE" \
+--exclude="NOTICE" \
+--exclude="README" \
+-zvcf archived_config.tar.gz .
+
+
+
+🔓 0s @ 18:07:58 $ tree -L 2
+.
+├── certs
+├── hardcoded
+│   ├── CN=alopresto.NIFI-5370_OU=NiFi.p12
+│   ├── CN=alopresto.NIFI-5370_OU=NiFi.password
+│   ├── nifi-cert.pem
+│   ├── nifi-key.key
+│   ├── node1.nifi.apache.org
+│   ├── node2.nifi.apache.org
+│   └── node3.nifi.apache.org
+├── node1
+│   ├── LICENSE
+│   ├── NOTICE
+│   ├── README
+│   ├── bin
+│   ├── conf
+│   ├── docs
+│   └── lib
+├── node2
+│   ├── LICENSE
+│   ├── NOTICE
+│   ├── README
+│   ├── bin
+│   ├── conf
+│   ├── docs
+│   └── lib
+├── node3
+│   ├── LICENSE
+│   ├── NOTICE
+│   ├── README
+│   ├── bin
+│   ├── conf
+│   ├── docs
+│   └── lib
+└── wildcard
+    ├── CN=alopresto.NIFI-5370_OU=NiFi.p12
+    ├── CN=alopresto.NIFI-5370_OU=NiFi.password
+    ├── nifi-cert.pem
+    ├── nifi-key.key
+    └── star.nifi.apache.org
+
+22 directories, 17 files

@@ -1,0 +1,14 @@
+bin/
+docs/
+lib/
+logs/
+run/
+work/
+state/local/
+database_repository/
+content_repository/
+flowfile_repository/
+provenance_repository/
+LICENSE
+NOTICE
+README
