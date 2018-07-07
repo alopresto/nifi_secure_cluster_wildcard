@@ -89,6 +89,30 @@ Unverified proxy with wildcard
 SocketTimeout
 
 
+2018-07-06 21:21:41,671 INFO [Clustering Tasks Thread-3] o.a.n.c.c.ClusterProtocolHeartbeater Heartbeat created at 2018-07-06 21:21:41,412 and sent to node3.nifi.apache.org:13999 at 2018-07-06 21:21:41,671; send took 256 millis
+2018-07-06 21:21:46,981 INFO [Clustering Tasks Thread-3] o.a.n.c.c.ClusterProtocolHeartbeater Heartbeat created at 2018-07-06 21:21:46,687 and sent to node3.nifi.apache.org:13999 at 2018-07-06 21:21:46,981; send took 293 millis
+2018-07-06 21:21:52,082 INFO [Clustering Tasks Thread-3] o.a.n.c.c.ClusterProtocolHeartbeater After receiving heartbeat response, updated status of node2.nifi.apache.org:12443 to NodeConnectionStatus[nodeId=node2.nifi.apache.org:12443, state=CONNECTED, updateId=18]
+2018-07-06 21:21:52,083 INFO [Clustering Tasks Thread-3] o.a.n.c.c.ClusterProtocolHeartbeater Heartbeat created at 2018-07-06 21:21:51,997 and sent to node3.nifi.apache.org:13999 at 2018-07-06 21:21:52,083; send took 85 millis
+2018-07-06 21:22:02,116 WARN [Clustering Tasks Thread-3] o.apache.nifi.controller.FlowController Failed to send heartbeat due to: org.apache.nifi.cluster.protocol.ProtocolException: Failed marshalling 'HEARTBEAT' protocol message due to: java.net.SocketTimeoutException: Read timed out
+
+OkHttpReplicationClient#createSslSocketFactory() duplicates code
+	-References oldest SslContextFactory (2014)
+	-Uses global NiFi keystore/truststore
+	-TrustManager?
+
+
+Two issues:
+	-with default hostname verifier and sslsocketfactory
+	-socketprotocollistener doesn't get peer certs
+	-threadpoolrequestreplicator gets timeout
+	
+
+rmf ~/Workspace/scratch/NIFI-5370/node1/lib/* \
+~/Workspace/scratch/NIFI-5370/node2/lib/* \
+~/Workspace/scratch/NIFI-5370/node3/lib/* && \
+cpr lib/ ~/Workspace/scratch/NIFI-5370/node1/lib && \
+cpr lib/ ~/Workspace/scratch/NIFI-5370/node2/lib && \
+cpr lib/ ~/Workspace/scratch/NIFI-5370/node3/lib
 
 🔓 0s @ 18:07:58 $ tree -L 2
 .
