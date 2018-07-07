@@ -61,6 +61,33 @@ Change election wait time to 10 seconds
 Silent observer in election? (null participant ID in #register())
 Still able to reproduce cert error
 
+Built new lib and copied to all nodes
+
+
+
+2018-07-06 21:19:15,721 WARN [Process Cluster Protocol Request-5] o.a.n.c.p.impl.SocketProtocolListener Failed processing protocol message from localhost due to org.apache.nifi.cluster.protocol.ProtocolException: java.security.cert.CertificateException: javax.net.ssl.SSLPeerUnverifiedException: peer not authenticated
+org.apache.nifi.cluster.protocol.ProtocolException: java.security.cert.CertificateException: javax.net.ssl.SSLPeerUnverifiedException: peer not authenticated
+	at org.apache.nifi.cluster.protocol.impl.SocketProtocolListener.getRequestorDN(SocketProtocolListener.java:225)
+	at org.apache.nifi.cluster.protocol.impl.SocketProtocolListener.dispatchRequest(SocketProtocolListener.java:131)
+	at org.apache.nifi.io.socket.SocketListener$2$1.run(SocketListener.java:136)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.security.cert.CertificateException: javax.net.ssl.SSLPeerUnverifiedException: peer not authenticated
+	at org.apache.nifi.security.util.CertificateUtils.extractPeerDNFromClientSSLSocket(CertificateUtils.java:314)
+	at org.apache.nifi.security.util.CertificateUtils.extractPeerDNFromSSLSocket(CertificateUtils.java:269)
+	at org.apache.nifi.cluster.protocol.impl.SocketProtocolListener.getRequestorDN(SocketProtocolListener.java:223)
+	... 5 common frames omitted
+Caused by: javax.net.ssl.SSLPeerUnverifiedException: peer not authenticated
+	at sun.security.ssl.SSLSessionImpl.getPeerCertificates(SSLSessionImpl.java:431)
+	at org.apache.nifi.security.util.CertificateUtils.extractPeerDNFromClientSSLSocket(CertificateUtils.java:299)
+	... 7 common frames omitted
+
+Initial problem solved by using DefaultHostnameVerifier in ThreadPoolRequestReplicatorFactoryBean
+Some other cluster comms are not sending peer certs with clientAuth=NEED
+Unverified proxy with wildcard
+SocketTimeout
+
 
 
 🔓 0s @ 18:07:58 $ tree -L 2
